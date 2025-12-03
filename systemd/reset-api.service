@@ -1,0 +1,14 @@
+[Unit]
+Description=WebArena Reset API
+After=network.target docker.service
+Wants=docker.service
+
+[Service]
+User=ubuntu
+WorkingDirectory=/home/ubuntu/WebArena_docker_reset
+ExecStart=/usr/bin/uvicorn reset_api:app --host 0.0.0.0 --port 5001
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
