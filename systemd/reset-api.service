@@ -6,7 +6,7 @@ Wants=docker.service
 [Service]
 User=ubuntu
 WorkingDirectory=/home/ubuntu/WebArena_docker_reset
-ExecStart=/usr/bin/uvicorn reset_api:app --host 0.0.0.0 --port 5001
+ExecStart=/home/ubuntu/miniconda3/envs/webarena_reset/bin/uvicorn reset_api:app --host 0.0.0.0 --port 5001
 Restart=always
 
 [Install]
