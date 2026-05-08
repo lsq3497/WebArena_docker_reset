@@ -6,7 +6,9 @@ Wants=docker.service
 [Service]
 User=ubuntu
 WorkingDirectory=/home/ubuntu/WebArena_docker_reset
-ExecStart=/home/ubuntu/miniconda3/envs/webarena_reset/bin/uvicorn reset_api:app --host 0.0.0.0 --port 5001
+# 使用当前 conda「base」下的 Python；若使用独立环境，请改为该环境的 python 绝对路径，例如：
+# /home/ubuntu/miniconda3/envs/webarena_reset/bin/python -m uvicorn ...
+ExecStart=/home/ubuntu/miniconda3/bin/python -m uvicorn reset_api:app --host 0.0.0.0 --port 5001
 Restart=always
 
 [Install]

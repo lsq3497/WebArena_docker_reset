@@ -39,6 +39,14 @@ chmod +x scripts/*.sh
 
 ## 使用systemd服务
 
+服务单元默认使用 Miniconda **base** 解释器：`/home/ubuntu/miniconda3/bin/python -m uvicorn ...`。请先在同一环境中安装依赖：
+
+```bash
+pip install -r requirements.txt
+```
+
+若 Miniconda 不在该路径、或使用名为 `webarena_reset` 等独立环境，请编辑 `systemd/reset-api.service` 里的 `ExecStart`，改为对应环境中的 `python`（可先执行 `conda activate <环境名>` 再用 `which python` 查看路径），然后重新安装单元文件。
+
 1. 复制systemd服务文件：
 ```bash
 sudo cp systemd/reset-api.service /etc/systemd/system/
@@ -49,8 +57,9 @@ sudo cp systemd/reset-api.service /etc/systemd/system/
 sudo systemctl daemon-reload
 ```
 
-3. 启动服务：
+3. 若服务曾因反复启动失败进入冷却，先重置失败状态再启动：
 ```bash
+sudo systemctl reset-failed reset-api
 sudo systemctl start reset-api
 ```
 
@@ -116,4 +125,10 @@ curl.exe -X POST http://ec2-18-224-173-55.us-east-2.compute.amazonaws.com:5001/r
 ```
 
 **注意：** 请根据实际的服务器地址和端口修改上述命令中的URL。如果API服务运行在本地，可以使用 `http://localhost:5001` 或 `http://127.0.0.1:5001`。
+
+在 Linux / EC2 本机上测试请使用系统自带的 `curl`（不要使用 Windows 的 `curl.exe`）：
+
+```bash
+curl -s http://127.0.0.1:5001/status
+```
 
